@@ -1,0 +1,152 @@
+{% load static %}
+<!-- Editar Modal -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+            <form id="edit-user-form" method="post" enctype="multipart/form-data" class="ajax-form">
+                {% csrf_token %}
+                <div class="mb-3 text-center">
+                    <img src="{{ usuario.foto.url }}" alt="Foto de usuario" class="img-thumbnail mb-2" style="width: 150px; height: 150px;">
+                    <label for="foto" class="form-label">Cambiar Foto de Perfil:</label>
+                    <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="username">Alias de usuario</label>
+                    <input type="text" name="username" class="form-control" value="{{ usuario.username }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="nombre">Nombre del Usuario</label>
+                    <input type="text" name="nombre" class="form-control" value="{{ usuario.nombre }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="apellido">Apellido del Usuario</label>
+                    <input type="text" name="apellido" class="form-control" value="{{ usuario.apellido }}" required>
+                </div>
+
+                {% if request.session.logueo.rol == "ADMIN" %}
+                <div class="form-group mb-3">
+                    <label for="rol">Rol</label>
+                    <select name="rol" class="form-control" required>
+                        <option value="">Seleccione:</option>
+                        {% for rol_value, rol_display in roles %}
+                            <option value="{{ rol_value }}" {% if usuario.rol == rol_value %} selected {% endif %}>{{ rol_display }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+
+                <div class="form-group mb-3">
+                    <label for="email">Correo del Usuario</label>
+                    <input type="email" name="email" class="form-control" value="{{ usuario.email }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                    <input type="date" name="fecha_nacimiento" class="form-control" value="{{ usuario.fecha_nacimiento|date:'Y-m-d' }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="direccion">Dirección del Usuario</label>
+                    <input type="text" name="direccion" class="form-control" value="{{ usuario.direccion }}" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="telefono">Teléfono del Usuario</label>
+                    <input type="tel" name="telefono" class="form-control" value="{{ usuario.telefono }}" required>
+                </div>
+
+                {% if request.session.logueo.rol == "ADMIN" and usuario.rol == "TEC" %}
+                <div class="form-group mb-3">
+                    <label class="form-label">Categorías:</label>
+                    <div class="form-check">
+                        {% for categoria in categorias %}
+                            <div class="mb-1">
+                                <input class="form-check-input" type="checkbox" id="categoria{{ categoria.id }}" name="categorias" value="{{ categoria.id }}"
+                                {% if categoria in usuario.categorias.all %} checked {% endif %}>
+                                <label class="form-check-label" for="categoria{{ categoria.id }}">
+                                    {{ categoria.nombre_cat }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+            <div id="response-message" class="mt-3"></div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('edit-user-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evitar que el formulario se envíe de la manera tradicional
+
+        // Obtener el campo de fecha de nacimiento
+        const fechaNacimientoInput = document.querySelector('input[name="fecha_nacimiento"]');
+        const fechaNacimiento = new Date(fechaNacimientoInput.value);
+        const hoy = new Date();
+        
+        // Validación: verificar si la fecha es futura
+        if (fechaNacimiento > hoy) {
+            document.getElementById('response-message').innerHTML = '<div class="alert alert-danger">La fecha de nacimiento no puede ser en el futuro.</div>';
+            return; // Detener el envío del formulario
+        }
+        
+        // Calcular la edad
+        const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+            edad--;
+        }
+
+        // Validar si la persona tiene al menos 18 años
+        if (edad < 18) {
+            document.getElementById('response-message').innerHTML = '<div class="alert alert-danger">Debes tener al menos 18 años.</div>';
+            return; // Detener el envío del formulario
+        }
+
+        // Si la validación pasa, proceder con la solicitud AJAX
+        const formData = new FormData(this); // Crear un objeto FormData con los datos del formulario
+
+        fetch("{% url 'usuarios_editar' usuario.id %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest' // Asegurar que se envíe como solicitud AJAX
+            }
+        })
+        .then(response => response.json()) // Convertir la respuesta a JSON
+        .then(data => {
+            if (data.success) {
+                document.getElementById('response-message').innerHTML = '<div class="alert alert-success">Datos actualizados con éxito!</div>';
+                // Aquí puedes cerrar el modal o actualizar la lista de usuarios
+                setTimeout(() => {
+                    window.location.reload(); // Recargar la página o actualizar el modal
+                }, 2000);
+            } else {
+                let errorsHtml = '<div class="alert alert-danger"><ul>';
+                for (let error of data.errors) {
+                    errorsHtml += `<li>${error}</li>`;
+                }
+                errorsHtml += '</ul></div>';
+                document.getElementById('response-message').innerHTML = errorsHtml; // Mostrar errores
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('response-message').innerHTML = '<div class="alert alert-danger">Se produjo un error, intente nuevamente.</div>';
+        });
+    });
+</script>

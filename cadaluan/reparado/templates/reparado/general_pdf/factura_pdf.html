@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factura {{ factura.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table, th, td { border: 1px solid black; }
+        th, td { padding: 10px; text-align: left; }
+        .total { text-align: right; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Factura N° {{ factura.id }}</h1>
+    <p>Fecha de emisión: {{ factura.fecha_emision }}</p>
+    <p>Usuario: {{ usuario.username }}</p>
+    <p>Método de pago: {{ factura.metodo_pago }}</p>
+    <p>Forma de pago: {{ factura.forma_pago }}</p>
+
+    <table>
+        <tr>
+            <th>Descripción</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>Compra N° {{ compra.id }}</td>
+            <td>{{ factura.total }}</td>
+        </tr>
+    </table>
+
+    <p class="total">Total a pagar: ${{ factura.total }}</p>
+</body>
+</html>

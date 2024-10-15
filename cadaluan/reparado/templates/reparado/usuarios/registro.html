@@ -1,0 +1,63 @@
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="registrarseModalLabel">Registrarse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <form id="register-user-form" method="post" enctype="multipart/form-data" action="{% url 'registro' %}" class="ajax-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Alias de usuario</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="text-danger">{{ form.email.errors }}</div>
+                    {% endif %}
+                </div>
+                <!-- Nombre -->
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                </div>
+                <!-- Apellido -->
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" name="apellido" class="form-control" placeholder="Apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="password1">Contraseña</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="text-danger">{{ form.password1.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="password2">Confirmar contraseña</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="text-danger">{{ form.password2.errors }}</div>
+                    {% endif %}
+                </div>
+               <!-- Fecha de nacimiento -->
+               <div class="form-group">
+                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                {{ form.fecha_nacimiento }}
+                {% if form.fecha_nacimiento.errors %}
+                    <div class="text-danger">{{ form.fecha_nacimiento.errors }}</div>
+                {% endif %}
+            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

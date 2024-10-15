@@ -1,0 +1,18 @@
+{% extends 'reparado/layouts/base_sencilla.html' %}
+
+{% load static %}
+
+{% block principal %}
+
+<div class="card mt-5 p-2 col-3 m-auto text-center">
+    <form action="{% url 'olvide_mi_clave' email %}" method="post">
+        {% csrf_token %}
+        <label>Nueva Clave</label><br>
+        <input type="password" required="" name="nueva1" class="form-control">
+        <label>Repetir Clave</label><br>
+        <input type="password" required="" name="nueva2" class="form-control"><br>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+
+{% endblock %}

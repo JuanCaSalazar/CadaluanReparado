@@ -1,0 +1,40 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+
+{% load static %}
+
+{% block titulo %}Nuevo Servicio{% endblock %}
+
+{% block principal %}
+
+<div class="container col-md-6 mt-4">
+	<h1>Crear Nuevo Servicio</h1>
+	<form action="{% url 'servicios_crear'%}" method="post">
+		{% csrf_token %}
+		<div class="mb-3">
+			<label for="nombre_ser" class="form-label">Nombre del Servicio:</label>
+			<input type="text" class="form-control" id="nombre_ser" name="nombre_ser" placeholder="Ejemplo: Servicio de Plomería" value="{{ registro.nombre_cat }}" required />
+		</div>
+		<div class="mb-3">
+			<label for="desc_ser" class="form-label">Descripción del Servicio:</label>
+			<textarea class="form-control" id="desc_ser" name="desc_ser" rows="4" placeholder="Ingrese una descripción detallada del servicio" required></textarea>
+		</div>
+		<div class="mb-3">
+			<label for="precio" class="form-label">Precio del Servicio:</label>
+			<input type="number" class="form-control" id="precio" name="precio" placeholder="Ejemplo: 100.00" step="0.01" required />
+		</div>
+		<div class="mb-3">
+        <label>Categoria: </label>
+        <select name="categorias" class="form-control" required="">
+            <option value="">Seleccione:</option>
+            {% for c in categoria %}
+            <option value="{{ c.id }}">{{ c.nombre_cat }}</option>
+            {% endfor %}
+        </select>
+		</div>
+		<button type="submit" class="btn btn-dark mb-3">Crear Servicio</button>
+	</form>
+</div>
+
+{% endblock %}
+
+

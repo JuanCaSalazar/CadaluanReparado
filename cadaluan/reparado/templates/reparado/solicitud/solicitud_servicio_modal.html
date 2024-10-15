@@ -1,0 +1,54 @@
+{% load static %}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalSolicitud">Solicitar Servicio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="servicioEditar">
+            <form action="{% url 'solicitud_servicio' servicio.id %}" method="post" id="formEditarCategoria">
+                {% csrf_token %}
+                <input type="hidden" id="servicio_id" name="servicio_id" value="{{ servicio.id }}"/>
+
+                <div class="mb-3">
+                    <label for="nombre_ser" class="form-label">Nombre del Servicio:</label>
+                    <input type="text" class="form-control" id="nombre_ser" name="nombre_ser" value="{{ servicio.nombre_ser }}" readonly/>
+                </div>
+                <div class="mb-3">
+                    <label for="precio" class="form-label">Precio del Servicio:</label>
+                    <input type="number" class="form-control" id="precio" name="precio" value="{{ servicio.precio }}" readonly/>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha_hora" class="form-label">Fecha de Programación:</label>
+                    <input type="datetime-local" class="form-control" id="fecha_hora" name="fecha_hora"/>
+                </div>
+                <div class="mb-3">
+                    <label for="tecnico_id" class="form-label">Técnico:</label>
+                    {% if tecnicos %}
+                        <select class="form-control" id="tecnico_id" name="tecnico_id">
+                            {% for tecnico in tecnicos %}
+                                <option value="{{ tecnico.id }}">{{ tecnico.nombre }} {{ tecnico.apellido }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if tecnicos|length > 1 %}
+                            <small class="form-text text-muted">Hay múltiples técnicos disponibles para este servicio.</small>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            No hay técnicos disponibles para este servicio.
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="zona" class="form-label">Dirección:</label>
+                    <input type="text" class="form-control" id="zona" name="zona"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

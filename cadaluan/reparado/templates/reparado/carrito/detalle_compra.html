@@ -1,0 +1,73 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+
+{% block principal %}
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="text-center mb-4">Detalle de la Compra</h2>
+
+            <div class="card p-4 mb-4">
+                <h4>Información de la Compra</h4>
+                <p><strong>Compra ID:</strong> {{ compra.id }}</p>
+                <p><strong>Total:</strong> ${{ compra.total }}</p>
+                <p><strong>Estado:</strong>
+                    {% if compra.estado == 1 %} Creada
+                    {% elif compra.estado == 2 %} Pagada
+                    {% elif compra.estado == 3 %} Enviada
+                    {% else %} Cancelada
+                    {% endif %}
+                </p>
+            </div>
+
+            {% if not factura %}
+            <div class="card p-4 mb-4">
+                <h4>Generar Factura</h4>
+                <form method="POST" action="{% url 'procesar_pago' compra.id %}">
+                    {% csrf_token %}
+
+                    <div class="form-group mb-3">
+                        <label for="metodo_pago"><strong>Método de Pago:</strong></label>
+                        <select name="metodo_pago" class="form-control" id="metodo_pago">
+                            {% for key, value in metodos_pago %}
+                                <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="forma_pago"><strong>Forma de Pago:</strong></label>
+                        <select name="forma_pago" class="form-control" id="forma_pago">
+                            {% for key, value in formas_pago %}
+                                <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-block">Pagar y Generar Factura</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="card p-4 mb-4">
+                <h4>Factura</h4>
+                <p><strong>Factura ID:</strong> {{ factura.id }}</p>
+                <p><strong>Total:</strong> ${{ factura.total }}</p>
+                <p><strong>Método de Pago:</strong> {{ factura.get_metodo_pago_display }}</p>
+                <p><strong>Forma de Pago:</strong> {{ factura.get_forma_pago_display }}</p>
+                <p><strong>Fecha de Pago:</strong> {{ factura.fecha_pago }}</p>
+
+            </div>
+            {% endif %}
+
+            {% if factura %}
+                <a href="{% url 'generar_factura_pdf' factura.id %}">Descargar Factura PDF</a>
+            {% else %}
+                <p>No hay factura generada para esta compra.</p>
+            {% endif %}
+
+            <div class="text-center">
+                <a class="btn btn-primary" href="{% url 'inicio' %}">Volver al Inicio</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

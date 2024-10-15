@@ -1,0 +1,31 @@
+{% load static %}
+
+<!-- Editar Modal -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Editar Categoría</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'categorias_editar' categoria.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" id="categoria_id" name="categoria_id" value="{{ categoria.id }}" />
+
+                <div class="mb-3">
+                    <label for="nombre_cat" class="form-label">Nombre de la Categoría:</label>
+                    <input type="text" class="form-control" id="nombre_cat" name="nombre_cat" value="{{ categoria.nombre_cat }}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="desc" class="form-label">Descripción de la Categoría:</label>
+                    <input type="text" class="form-control" id="desc" name="desc" value="{{ categoria.desc }}" required />
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" formmethod="post" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    </div>
+</div>

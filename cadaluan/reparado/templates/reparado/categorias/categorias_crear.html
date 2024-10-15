@@ -1,0 +1,41 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+
+{% load static %}
+
+{% block titulo %}Nueva Categoría{% endblock %}
+
+{% block principal %}
+<div class="container col-md-6 mt-4">
+    <h1>Crear Nueva Categoría</h1>
+    <form action="{% url 'categorias_crear'%}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nombre_cat" class="form-label">Nombre de la Categoría:</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="nombre_cat"
+                    name="nombre_cat"
+                    placeholder="Ejemplo: Cerrajería"
+                    required
+            />
+        </div>
+        <div class="mb-3">
+            <label for="desc" class="form-label"
+            >Descripción de la Categoría:</label
+            >
+            <textarea
+                    class="form-control"
+                    id="desc"
+                    name="desc"
+                    rows="4"
+                    placeholder="Ingrese una descripción detallada de la categoría"
+                    required
+            ></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark mb-3">Crear Categoría</button>
+    </form>
+</div>
+
+{% endblock %}
+

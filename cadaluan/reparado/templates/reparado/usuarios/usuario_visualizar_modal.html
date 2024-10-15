@@ -1,0 +1,39 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="visualizarUsuarioLabel">Detalles del Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <img src="{{ usuario.foto.url }}" alt="Usuario" class="img-thumbnail" />
+            </div>
+            <h5 class="text-center">{{ usuario.nombre }} {{ usuario.apellido }}</h5>
+            <p class="text-center">{{ usuario.get_rol_display }}</p>
+            <table class="table">
+                <tr>
+                    <td>Fecha de Nacimiento</td>
+                    <td>{{ usuario.fecha_nacimiento|date:"d/m/Y" }}</td>
+                </tr>
+                <tr>
+                    <td>Estado</td>
+                    <td>
+                        {% if usuario.activo %}
+                            <span class="badge bg-success">Activo</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactivo</span>
+                            <p class="text-muted">Este usuario está actualmente inactivo.</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Correo</td>
+                    <td><a href="mailto:{{ usuario.email }}">{{ usuario.email }}</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
+</div>

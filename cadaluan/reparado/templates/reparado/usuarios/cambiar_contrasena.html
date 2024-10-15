@@ -1,0 +1,31 @@
+<div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Contenido de tu modal aquí -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cambiar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="changePasswordForm" method="post" action="{% url 'cambiar_clave' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <!-- Contenido específico para cambiar la contraseña -->
+                    <div class="mb-3">
+                        <label for="old_password" class="form-label">Contraseña Actual:</label>
+                        <input type="password" class="form-control" id="old_password" name="old_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password1" class="form-label">Nueva Contraseña:</label>
+                        <input type="password" class="form-control" id="new_password1" name="new_password1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password2" class="form-label">Confirmar Nueva Contraseña:</label>
+                        <input type="password" class="form-control" id="new_password2" name="new_password2" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>

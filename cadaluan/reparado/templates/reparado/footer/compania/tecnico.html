@@ -1,0 +1,466 @@
+
+{% load static %}
+{% load humanize %}
+{% load filters %}
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="{% static 'reparado/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="{% static 'reparado/css/estilos.css' %}" />
+    
+    <link href="{% static 'reparado/css/datatables.min.css' %}" rel="stylesheet" />
+    <title>ReparaDo! - {% block titulo %}{% endblock %}</title>
+</head>
+
+<div class="hero_area">
+   
+
+    <header class="header_section" style="background-color: #d1e3ff">
+        <div class="header_top">
+            <div class="container-fluid">
+                <div class="contact_nav">
+                    <a href="">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <span>
+                            Llamanos : +57 3034569999
+                        </span>
+                    </a>
+                    <a href="">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <span>
+                            Email : reparado@gmail.com
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header_bottom" style="background-color: #d1e3ff">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container" style="background-color: #d1e3ff">
+                    <a class="navbar-brand" href="{% url 'index' %}">
+                        <span>
+                            Reparado
+                        </span>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+             
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Solicitudes</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'solicitudes' %}">Visualizar Solicitudes</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'servicios' %}">Realizar nueva solicitud</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Facturas</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'detalle_compras' %}">Compras realizadas</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'categorias' %}">Visualización de Categorías</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'nuestros_servicios' %}">Servicios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'contactanos' %}">Contactanos</a>
+                            </li>
+                        </ul>
+                        <ul class="d-flex navbar-nav">
+                            <li class="nav-item">
+                                <div>
+                                    <a onclick="offcanvas(`{% url 'visualizar_perfil' request.session.logueo.id %}`)"
+                                        class="nav-link position-relative" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                        <i class="bi bi-person"></i>
+                                        <span class="position-relative">{{ request.session.logueo.username }}</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <div>
+                                    <a onclick="offcanvas(`{% url 'ver_carrito' %}`)" class="nav-link position-relative"
+                                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                        aria-controls="offcanvasRight">
+                                        <i class="bi bi-cart4"></i>
+                                        <span
+                                            class="position-relative top-0 start-75 translate-middle badge rounded-pill bg-danger"
+                                            style="margin-left: 0.5rem;">{{ request.session.items_carrito|default:0}}
+                                        </span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+            
+                       
+                      
+           
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %} {% endif %}
+
+<div class="container-fluid p-0 mb-5">
+    <div class="owl-carousel header-carousel position-relative">
+        <div class="owl-carousel-item position-relative">
+            <img class="img-fluid" src="{% static 'reparado/img/carousel-1.jpg' %}" alt="">
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(0, 0, 0, .5);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h5 class="text-white text-uppercase mb-3 animated slideInDown">Servicios de Plomería y Reparación</h5>
+                            <h1 class="display-3 text-white animated slideInDown mb-4">Servicios de Plomería Residencial Eficientes</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">En Reparado, ofrecemos soluciones rápidas y efectivas para todas tus necesidades de plomería. Nuestro equipo de expertos está disponible 24/7 para asegurar que tu hogar esté siempre en perfectas condiciones.</p>
+                            <a href="{% url 'nosotros' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Leer Más</a>
+                            <a href="https://wa.me/573023383914" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Cotización Gratuita</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+
+
+<section id="service-links" class="container">
+
+    <div class="row">
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'categorias' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/servicios.jpg' %}" alt="Electricidad" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Categorias</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'servicios' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/solicitudes.jpg' %}" alt="Otros Servicios" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Servicios</h4>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'solicitudes' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/clientes.jpg' %}" alt="Obra Blanca" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Solicitudes</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+    </div>
+</section>
+<section class="professional_section layout_padding">
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="text-secondary text-uppercase">Nuestros Técnicos</h6>
+                <h1 class="mb-5">Conviertete en uno de nuestros tecnicos expertos</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src="{% static 'reparado/img/team-1.jpg' %}" alt="">
+                        </div>
+                        <div class="team-text">
+                            <div class="bg-light">
+                                <h5 class="fw-bold mb-0">Daniel Álvarez Molina</h5>
+                                <small>Técnico en Plomería</small>
+                            </div>
+                            <div class="bg-primary">
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src="{% static 'reparado/img/team-2.jpg' %}" alt="">
+                        </div>
+                        <div class="team-text">
+                            <div class="bg-light">
+                                <h5 class="fw-bold mb-0">Luis Fernando Ochoa</h5>
+                                <small>Técnico de Reparación</small>
+                            </div>
+                            <div class="bg-primary">
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src="{% static 'reparado/img/team-3.jpg' %}" alt="">
+                        </div>
+                        <div class="team-text">
+                            <div class="bg-light">
+                                <h5 class="fw-bold mb-0">Juan Camilo Reina</h5>
+                                <small>Técnico en Mantenimiento</small>
+                            </div>
+                            <div class="bg-primary">
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src="{% static 'reparado/img/team-4.jpg' %}" alt="">
+                        </div>
+                        <div class="team-text">
+                            <div class="bg-light">
+                                <h5 class="fw-bold mb-0">José Carmelo Alzante</h5>
+                                <small>Técnico de Servicios Generales</small>
+                            </div>
+                            <div class="bg-primary">
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="img-box">
+                    <img src="{% static 'reparado/img/professional-img.png' %}" alt="">
+                </div>
+            </div>
+            <div class="col-md-6 ">
+                <div class="detail-box">
+                    <h2>
+                        Explora Nuevas Oportunidades de <br>
+                        Crecimiento Profesional <br>
+                    </h2>
+                    <p>
+                        En un entorno en constante cambio, diversificar tus habilidades
+                        en diferentes categorías de servicios enriquece tu perfil y abre nuevas oportunidades.
+                        Piensa en aplicar tus talentos en áreas como analítica de datos, soporte técnico, gestión de
+                        proyectos o desarrollo de software. Cada nueva categoría es un paso hacia tu crecimiento
+                        profesional. ¡Explora estas posibilidades!
+                    </p>
+                    <a href="{% url 'categorias'%}">
+                        Mira nuestras categorías
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="client_section ">
+    <div class="container">
+        <div class="heading_container heading_center">
+            <h2>
+                ¿Que dicen nuestros clientes?
+            </h2>
+        </div>
+        <div class="carousel-wrap layout_padding2-top ">
+            <div class="owl-carousel">
+                <div class="item">
+                    <div class="box">
+                        <div class="client_id">
+                            <div class="img-box">
+                                <img src="{% static 'reparado/img/client-1.jpg' %}" alt="">
+                            </div>
+                            <div class="client_detail">
+                                <div class="client_info">
+                                    <h6>
+                                        Daniel Álvarez
+                                    </h6>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </div>
+                                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="client_text">
+                            <p>
+                                Una empresa como está era necesaria en el valle de aburra, dado que los tecnicos son muy
+                                profesionales y dan garantía por el servicio
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="box">
+                        <div class="client_id">
+                            <div class="img-box">
+                                <img src="{% static 'reparado/img/client-1.jpg' %}" alt="">
+                            </div>
+                            <div class="client_detail">
+                                <div class="client_info">
+                                    <h6>
+                                        Camilo Reina
+                                    </h6>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </div>
+                                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="client_text">
+                            <p>
+                                Tenía el nueva apartamento que arrende en muy malas condiciones, por eso me decidí a
+                                llamar a reparado y la verdad me sorprendieron los resultados.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true"></div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"></div>
+
+<a href="https://wa.me/573016807257" target="_blank" class="whatsapp-btn"><i class="bi bi-whatsapp"></i></a>
+
+
+<footer class="bg-dark text-white pt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Logo Section -->
+            <div class="col-md-6 col-lg-3 text-center mb-4">
+                <a href="/">
+                    <img src="{% static 'reparado/img/Reparado1.jpg' %}" alt="Logo ReparaDo" class="img-fluid" style="max-height: 100px; border-radius: 150px;"/>
+                </a>
+            </div>
+
+            <!-- About Us Section -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <h5 class="text-uppercase mb-3">Sobre Nosotros</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'nosotros' %}" class="text-white-50">Nosotros</a></li>
+                    <li><a href="{% url 'nuestros_servicios' %}" class="text-white-50">Servicios</a></li>
+                    <li><a href="{% url 'politica_privacidad' %}" class="text-white-50">Política de privacidad</a></li>
+                </ul>
+            </div>
+
+            <!-- Help & Support Section -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <h5 class="text-uppercase mb-3">Ayuda y Soporte</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'pregunta' %}" class="text-white-50">FAQs</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Follow Us Section -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <h5 class="text-uppercase mb-3">Síguenos</h5>
+                <p class="text-white-50">Mantente al día con nuestras ofertas y servicios</p>
+                <div class="d-flex justify-content-center">
+                    <a href="#" class="text-white-50 me-3" style="font-size: 24px;"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white-50 me-3" style="font-size: 24px;"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-white-50" style="font-size: 24px;"><i class="bi bi-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="bg-secondary text-center py-3">
+        <p class="mb-0">&copy; 2023 ReparaDo! - Todos los derechos reservados</p>
+    </div>
+</footer>
+
+
+
+
+<script src="{% static 'reparado/js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'reparado/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'reparado/js/DataTables/js/datatables.min.js' %}"></script>
+<script src="{% static 'reparado/js/libreria.js' %}"></script>
+<script src="{% static 'reparado/fullcalendar/dist/index.global.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $("#dataTable").DataTable({
+            language: {
+                lengthMenu: "Mostrando _MENU_ registros por página",
+                zeroRecords: "No se encontró nada - Lo sentimos",
+                info: "Mostrando página _PAGE_ de _PAGES_",
+                infoEmpty: "No hay registros existentes",
+                infoFiltered: "(filtrado desde _MAX_ total records)",
+                paginate: {
+                    next: "Próximo",
+                    previous: "Anterior",
+                },
+                search: "Buscar:",
+            },
+        });
+    });
+</script>
+
+</html>

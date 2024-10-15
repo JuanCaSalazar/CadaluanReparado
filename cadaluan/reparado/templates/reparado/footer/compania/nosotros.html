@@ -1,0 +1,38 @@
+{% extends 'reparado/footer/base_footer.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+<section class="about_section layout_padding">
+   <div class="container">
+       <div class="row">
+           <div class="col-lg-5 col-md-6">
+               <div class="detail-box">
+                   <h2>
+                       Sobre nosotros
+                   </h2>
+                   <p>
+                       En nuestra empresa, ofrecemos una amplia gama de servicios de reparación y mantenimiento para
+                       satisfacer todas tus necesidades del hogar. Desde electricidad y plomería hasta jardinería,
+                       nuestro equipo de expertos está listo para ayudarte a resolver cualquier problema. Nos
+                       enorgullecemos de brindar un servicio confiable, rápido y de alta calidad, garantizando la
+                       satisfacción de nuestros clientes. Tu hogar merece lo mejor, y estamos aquí para asegurarnos de
+                       que cada rincón esté en perfectas condiciones.
+                   </p>
+                   <a href="{% url 'nuestros_servicios' %}" style="text-decoration: none;">
+                       Conoce más de nosotros
+                   </a>
+                   
+               </div>
+           </div>
+           <div class="col-lg-7 col-md-6">
+               <div class="img-box">
+                   <img src="{% static 'reparado/img/carpinteria.jpg' %}" alt="">
+               </div>
+           </div>
+       </div>
+   </div>
+</section>
+{% endblock %}

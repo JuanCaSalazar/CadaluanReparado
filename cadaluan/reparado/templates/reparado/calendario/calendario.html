@@ -1,0 +1,25 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+{% load static %}
+{% block principal %}
+
+<div class="container">
+    <button id="btnShowCalendar" class="btn btn-primary">Mostrar Calendario</button>
+    <!-- Modal -->
+    <div class="modal fade" id="modalCalendar" tabindex="-1" aria-labelledby="modalCalendarLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCalendarLabel">Calendario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="calendar" data-solicitudes='{{ solicitudes|safe }}'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

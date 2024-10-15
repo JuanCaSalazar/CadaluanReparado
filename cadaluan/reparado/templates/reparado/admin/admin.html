@@ -1,0 +1,314 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block titulo %}Panel de Administración{% endblock %}
+
+{% block principal %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'reparado/css/styleAdmin.css' %}">
+    <link rel="stylesheet" href="{% static 'reparado/js/libreria.js' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+    <div class="container-fluid p-4">
+        <!-- Encabezado -->
+        <header class="header justify-content-between align-items-center p-3 bg-primary text-white shadow-sm">
+            <h1 class="h4 m-0">Panel de Administración</h1>
+            <p class="m-0" style="text-align: center;">Bienvenido, {{ request.session.logueo.username }}</p>
+            
+        </header>
+
+        <!-- Carrusel de imágenes -->
+        <!-- <section id="contenedor">
+            <div id="carouselExampleInterval" class="carousel slide shadow-sm mb-4 custom-carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="2000">
+                        <img src="{% static 'reparado/img/interiores.jpg' %}" class="d-block w-100" alt="Servicios">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="{% static 'reparado/img/solicitudes.jpg' %}" class="d-block w-100" alt="Solicitudes">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{% static 'reparado/img/seguridad.jpg' %}" class="d-block w-100" alt="Seguridad">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section> -->
+
+        <div class="container">
+        <!-- Tarjetas de resumen -->
+            <section id="resumen" class="my-4 d-flex flex-wrap justify-content-around">
+        
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card text-center bg-gradient-success text-white shadow-lg animated-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Usuarios</h5>
+                            <p class="card-text">{{ total_usuarios }}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card text-center bg-gradient-success text-white shadow-lg animated-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Clientes</h5>
+                            <p class="card-text">{{ total_clientes }}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card text-center bg-gradient-info text-white shadow-lg animated-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Técnicos Registrados</h5>
+                            <p class="card-text">{{ total_tecnicos }}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card text-center bg-gradient-danger text-white shadow-lg animated-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Administradores</h5>
+                            <p class="card-text">{{ total_admin }}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card text-center bg-gradient-warning text-white shadow-lg animated-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Servicios Registrados</h5>
+                            <p class="card-text">{{ total_servicios }}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card text-center bg-gradient-success text-white shadow-lg animated-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Ganancias</h5>
+                            <p class="card-text ">${{ total_ventas|floatformat:2|intcomma }}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+        </div>
+       
+        <section id="estadisticas" class="my-4">
+            
+            <!-- Gráfico de Estadísticas -->
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">Estadísticas de Usuarios</div>
+                <div class="card-body">
+                    <div id="userChart" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </section>   
+       
+        <!-- Tabla de Usuarios -->
+        <div class="fade-in mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">Lista de Usuarios</div>
+                
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-end">
+                        <a href="{% url 'usuarios_crear' %}" class="btn btn-animated btn-primary mb-2">
+                            <i class="bi bi-plus-circle"></i> Añadir Usuario
+                        </a>
+                    </div>
+                    <table id="dataTable" class="table table-striped table-hover shadow-sm">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in usuarios %}
+                            <tr>
+                                <td><img src="{{ u.foto.url }}" alt="Foto de {{ u.nombre }}" width="50" height="50" class="rounded-circle"></td>
+                                <td><a class="user-link">{{ u.nombre }} {{ u.apellido }}</a></td>
+                                <td>{{ u.email }}</td>
+                                <td>{{ u.get_rol_display }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-info" onclick="modal(`{% url 'usuarios_visualizar' u.id %}`)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-warning" onclick="modal(`{% url 'usuarios_editar' u.id %}`)">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button class="btn btn-danger" onclick="modal(`{% url 'usuarios_eliminar' u.id %}`)">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Servicios -->
+        <div class="fade-in mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">Lista de Servicios</div>
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-end">
+                        <a href="{% url 'servicios_crear' %}" class="btn btn-animated btn-primary">
+                            <i class="bi bi-plus-circle"></i> Añadir Servicio
+                        </a>
+                    </div>
+                    <table id="servicesTable" class="table table-striped table-hover shadow-sm">
+                        <thead>
+                            <tr>
+                                <th>Nombre Servicio</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in servicios %}
+                            <tr>
+                                <td>{{ r.nombre_ser }}</td>
+                                <td>{{ r.desc_ser }}</td>
+                                <td>${{ r.precio|intcomma }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-warning" onclick="modal(`{% url 'servicios_editar' r.id %}`)">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button class="btn btn-danger" onclick="modal(`{% url 'servicios_eliminar' r.id %}`)">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </div>
+    
+
+    <script type="application/json" id="datosGrafico">
+        {{ datos_grafico|safe }}
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Inicialización de DataTable para la tabla de usuarios
+            $('#dataTable').DataTable({
+                responsive: true,
+                language: {
+                    search: "Buscar:",
+                    lengthMenu: "Mostrar _MENU_ entradas",
+                    info: "Mostrando de _START_ a _END_ de _TOTAL_ entradas",
+                    paginate: {
+                        first: "Primero",
+                        last: "Último",
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    }
+                }
+            });
+        });
+
+        // Asegúrate de que los datos estén en formato JSON
+    const datosGrafico = JSON.parse(document.getElementById('datosGrafico').textContent);
+
+    const option = {
+        backgroundColor: '#fff', // Fondo del gráfico
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            axisLabel: {
+                color: '#666',
+                fontWeight: 'bold'
+            },
+           
+        },
+        yAxis: {
+            type: 'value',
+            min: 0,  // Establece el valor mínimo del eje Y en 0
+            axisLabel: {
+                color: '#666',
+                fontWeight: 'bold',
+                formatter: function(value) {
+                return value % 1 === 0 ? value : ''; // Muestra solo números enteros
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    type: 'dashed', // Líneas de cuadrícula discontinuas
+                    color: '#eee' // Color de las líneas de cuadrícula
+                }
+            }
+        },
+        series: [
+            {
+                name: 'Datos',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle', // Cambiar a círculo
+                symbolSize: 8, // Tamaño de los puntos
+                lineStyle: {
+                    color: '#5470C6', // Color de la línea
+                    width: 3, // Grosor de la línea
+                },
+                itemStyle: {
+                    color: '#FF6F61', // Color de los puntos
+                },
+                areaStyle: {
+                    color: 'rgba(144, 197, 255, 0.4)' // Color del área debajo de la línea
+                },
+                data: datosGrafico // Asegúrate de que aquí estén tus datos, incluyendo 0
+            }
+        ]
+    };
+
+    const userChart = echarts.init(document.getElementById('userChart'));
+    userChart.setOption(option);
+
+    
+        
+       
+    </script>
+</body>
+{% endblock %}

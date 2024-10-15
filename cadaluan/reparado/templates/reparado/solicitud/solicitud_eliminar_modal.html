@@ -1,0 +1,20 @@
+{% load static %}
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="eliminarModalLabel">Eliminar Solicitud</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="servicioEliminar">
+            <p>¿Estás seguro de que deseas eliminar la solicitud {{solicitud.id}}?</p>
+            <form action="{% url 'solicitud_eliminar' solicitud.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" id="solicitud_id" name="solicitud_id" value="{{ solicitud.id }}" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

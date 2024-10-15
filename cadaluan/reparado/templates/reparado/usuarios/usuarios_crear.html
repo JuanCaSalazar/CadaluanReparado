@@ -1,0 +1,63 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+
+{% load static %}
+
+{% block titulo %}Nuevo Usuario{% endblock %}
+
+{% block principal %}
+
+<div class="container col-md-6 mt-4 mb-3">
+    <h1 class="mb-3">Registro de Usuario</h1>
+    <form action="{% url 'usuarios_crear'%}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required />
+        </div>
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" required />
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Alias:</label>
+            <input type="text" class="form-control" id="username" name="username" required />
+        </div>
+        <div class="mb-3">
+        <label>Rol: </label>
+        <select name="rol" class="form-control" required="">
+            <option value="">Seleccione:</option>
+            <option value="ADMIN" {% if solicitud.estado == "ADMIN" %} selected = "" {% endif %}>Administrador</option>
+            <option value="SEC" {% if solicitud.estado == "SEC" %} selected = "" {% endif %}>Secretaria</option>
+            <option value="TEC" {% if solicitud.estado == "TEC" %} selected = "" {% endif %}>Técnico</option>
+            <option value="USU" {% if solicitud.estado == "USU" %} selected = "" {% endif %}>Usuario</option>
+        </select>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password" required />
+        </div>
+        <div class="mb-3">
+            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+        </div>
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono:</label>
+            <input type="tel" class="form-control" id="telefono" name="telefono" required />
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico:</label>
+            <input type="email" class="form-control" id="email" name="email" required />
+        </div>
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección:</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" required />
+        </div>
+        <div class="mb-3">
+            <label for="foto" class="form-label">Seleccionar Foto:</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-dark mb-3">Registrar</button>
+    </form>
+</div>
+
+{% endblock %}

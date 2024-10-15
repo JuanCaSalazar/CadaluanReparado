@@ -1,0 +1,21 @@
+{% load static %}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="eliminarModalLabel">Eliminar Categoría</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro de que deseas eliminar la categoría <strong>{{ categoria.nombre_cat }}</strong>?</p>
+            <form action="{% url 'categorias_eliminar' categoria.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" id="categoria_id" name="categoria_id" value="{{ categoria.id }}" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

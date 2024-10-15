@@ -1,0 +1,144 @@
+{% extends 'reparado/footer/base_footer.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="container-fluid" style="position: relative; display: flex; justify-content: center; align-items: center;">
+    <div id="color_sobrepuesto" style="position: relative;">
+        <img class="container-fluid" src="{% static 'reparado/img/testimonio1.jpg' %}" alt="" id="nservicios">
+        <h1 class="sobrepuesto1" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white;">Nuestros servicios</h1>
+    </div>
+</div>
+
+<div class="container-fluid" style="color: #ff6600; height: 200px; justify-content: center; align-items: center; align-content: center; margin: 50px; text-align: center;">
+    <h1><strong>En Reparado, nos enorgullece ofrecerte un servicio de mantenimiento de viviendas completo y de alta calidad,</strong><br>
+        A continuación, te presentamos las categorías de nuestros servicios de mantenimiento de viviendas en la ciudad de Medellín:</h1>
+</div>
+
+
+<div id="carouselExampleControls" class="carousel slide">
+    <div class="carousel-inner">
+        {% if data %}
+            {% for p in data %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row justify-content-center"> <!-- Centrar las tarjetas -->
+                        <div class="col-auto"> <!-- Utilizar col-auto para evitar que las columnas se expandan -->
+                            <div class="card h-100" style="width: 400px;height: 500px;">
+                                <img src="{{ p.foto.url }}" class="card-img-top" alt="..." style="height: 300px; object-fit: cover; ">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">{{ p.nombre_ser }}</h5>
+                                    <figcaption class="blockquote-footer">Categoría: <cite title="Source Title">{{p.categoria}}</cite></figcaption>
+                                    <p class="card-text">Precio: <strong>{{ p.precio }}</strong></p>
+                                    {% if p.stock > 0 and p.stock < 5 %} 
+                                        <strong class="text-danger">Últimas {{ p.stock }} unidades</strong>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer">
+                                    {% if p.stock == 0 %}
+                                        <strong class="text-danger">Producto Agotado</strong>
+                                    {% else %}
+                                      
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="carousel-item">
+                No hay productos en esta categoría.
+            </div>
+        {% endif %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="container-fluid" id="servicios_footer">
+    <div class="container-fluid" style="margin: 10px;border-radius: 10px;">
+        <h2 id="mano_blanca" style="color: #ff6600;">Carpintería</h2>
+        <p>En Reparado, somos especialistas en ofrecer soluciones integrales para el mantenimiento,
+            renovación y embellecimiento de la carpintería de tu hogar en Medellín. Contamos con un equipo de
+            profesionales altamente capacitados y con amplia experiencia en el sector, quienes te brindarán un servicio
+            de calidad, eficiente y garantizado.</p>
+        <div id="info1">
+            <a href="" id="mas_info">
+                Ampliar información!!
+            </a>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="display: flex;justify-content: end;">
+        <img src="{% static 'reparado/img/carpinteria.jpg' %}" alt="">
+    </div>
+</div>
+
+<div class="container-fluid" id="servicios_footer1">
+
+    <div class="container-fluid">
+        <img src="{% static 'reparado/img/fontaneria.jpg' %}" alt="">
+    </div>
+    <div class="container-fluid" style="margin: 10px;border-radius: 10px;">
+        <h2 id="mano_blanca" style="color: #ff6600;">Plomeria</h2>
+        <p style="color: white;">En Reparado, estamos comprometidos con brindarte un servicio de plomería de la más alta
+            calidad, utilizando materiales de primera línea y garantizando tu completa satisfacción.</p>
+        <div id="info1">
+            <a href="" id="mas_info">
+                Ampliar información!!
+            </a>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="container-fluid" id="servicios_footer">
+    <div class="container-fluid" style="margin: 10px;border-radius: 10px;">
+        <h2 id="mano_blanca" style="color: #ff6600;">Obra blanca</h2>
+        <p>Ofrecemos una amplia gama de servicios de obra blanca para el mantenimiento y renovación de tu hogar en
+            Antioquia. Contamos con un equipo de expertos altamente calificados y con amplia experiencia en el sector,
+            quienes te brindarán la mejor atención y calidad en cada proyecto.</p>
+        <div id="info1">
+            <a href="" id="mas_info">
+                Ampliar información!!
+            </a>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="display: flex;justify-content: end;">
+        <img src="{% static 'reparado/img/obraBlanca.jpg' %}" alt="">
+    </div>
+</div>
+
+<div class="container-fluid" id="servicios_footer1">
+
+    <div class="container-fluid">
+        <img src="{% static 'reparado/img/portada1.jpg' %}" alt="" style="height: 450px;width: 650px;">
+    </div>
+    <div class="container-fluid" style="margin: 10px;border-radius: 10px;">
+        <h2 id="mano_blanca" style="color: #ff6600;">Servicios adicionales</h2>
+        <p style="color: white;">En Reparado, además de ofrecerte un servicio integral de mantenimiento de viviendas,
+            también te
+            brindamos una amplia gama de servicios adicionales para cubrir todas tus necesidades y hacer tu vida más
+            fácil.</p>
+        <div id="info1">
+            <a href="" id="mas_info">
+                Ampliar información!!
+            </a>
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}

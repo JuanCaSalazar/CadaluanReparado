@@ -1,0 +1,54 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+
+{% block principal %}
+<section class="container mt-3">
+    <h1 class="text-center">Detalle de Compras y Facturas</h1>
+
+    {% if compras_con_facturas %}
+        <h2 class="section-title">Compras</h2>
+        <ul class="purchase-list">
+            {% for item in compras_con_facturas %}
+                <li class="purchase-item">
+                    <div class="info-box">
+                        <p><strong>ID de Compra:</strong> <span class="info-value">{{ item.compra.id }}</span></p>
+                        <p><strong>Fecha:</strong> <span class="info-value">{{ item.compra.fecha }}</span></p>
+                        <p><strong>Estado:</strong> <span class="info-value">{{ item.compra.get_estado_display }}</span></p>
+                    </div>
+
+                    {% if item.tiene_facturas %}
+                        <h3 class="factura-title">Facturas asociadas:</h3>
+                        <ul class="invoice-list">
+                            {% for factura in item.facturas %}
+                                <li class="invoice-item">
+                                    <div class="info-box">
+                                        <p><strong>ID de Factura:</strong> <span class="info-value">{{ factura.id }}</span></p>
+                                        <p><strong>Fecha de Emisión:</strong> <span class="info-value">{{ factura.fecha_emision }}</span></p>
+                                        <p><strong>Total:</strong> <span class="info-value">${{ factura.total }}</span></p>
+                                        <p><strong>Método de Pago:</strong> <span class="info-value">{{ factura.get_metodo_pago_display }}</span></p>
+                                        <p><strong>Forma de Pago:</strong> <span class="info-value">{{ factura.get_forma_pago_display }}</span></p>
+                                        <p><strong>Fecha de Pago:</strong> <span class="info-value">{{ factura.fecha_pago }}</span></p>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No hay facturas asociadas a esta compra.</p>
+                        <div class="text-center">
+                            <a class="btn btn-warning" href="{% url 'generar_factura' item.compra.id %}">
+                                Realizar Pago
+                            </a>
+                        </div>
+                    {% endif %}
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes compras realizadas.</p>
+    {% endif %}
+
+    <div class="text-center">
+        <a class="btn btn-primary btn-primary-llamativo" href="{% url 'inicio' %}">Volver al Inicio</a>
+    </div>
+</section>
+{% endblock %}

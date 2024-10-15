@@ -1,0 +1,83 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block titulo %}Servicios{% endblock %}
+{% block principal %}
+
+
+
+<section class="container mt-4">
+    <!-- Título principal con mejor espaciado y centrado -->
+    <h3 class="text-center mb-4">Información de Servicios</h3>
+    
+    <!-- Tabla estilizada -->
+    <div class="table-responsive">
+        <table id="dataTable" class="table user-list table-hover table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr class="text-center">
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre del Servicio</th>
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Precio (Hora)</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in data %}
+            <tr class="align-middle text-center">
+                <!-- Imagen del servicio -->
+                <td>
+                    <img src="{{ r.foto.url }}" alt="{{ r.nombre_ser }}" class="img-fluid rounded" style="max-width: 100px; height: auto;">
+                </td>
+
+                <!-- Nombre del servicio -->
+                <td>{{ r.nombre_ser }}</td>
+                
+                <!-- Categoría -->
+                <td>
+                    <span class="badge bg-secondary">{{ r.categoria }}</span>
+                </td>
+                
+                <!-- Precio por hora -->
+                <td>${{ r.precio | intcomma }}</td>
+                
+                <!-- Opciones para admin y cliente -->
+                <td>
+                    <input type="hidden" value="{{ r.id }}" data-id-servicio="{{ r.id }}">
+                    {% if request.session.logueo.rol == "ADMIN" %}
+                        <!-- Botón para editar servicio -->
+                        <button class="btn btn-outline-primary btn-sm" 
+                                onclick="modal(`{% url 'servicios_editar' r.id %}`)" title="Editar Servicio">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        
+                        <!-- Botón para eliminar servicio -->
+                        <button class="btn btn-outline-danger btn-sm" 
+                                onclick="modal(`{% url 'servicios_eliminar' r.id %}`)" title="Eliminar Servicio">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    {% endif %}
+                    
+                    <!-- Botón para solicitar servicio -->
+                    <button type="button" class="btn btn-outline-info btn-sm"
+                            onclick="modal(`{% url 'solicitud_servicio' r.id %}`)" title="Solicitar Servicio">
+                        <i class="bi bi-calendar2-day"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botón para crear nuevo servicio solo para admin -->
+    {% if request.session.logueo.rol == "ADMIN" %}
+    <div class="text-center mt-4">
+        <a class="btn btn-primary" href="{% url 'servicios_crear' %}">
+            <i class="bi bi-plus-circle"></i> Crear Servicio
+        </a>
+    </div>
+    {% endif %}
+</section>
+
+{% endblock %}

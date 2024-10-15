@@ -1,0 +1,75 @@
+{% extends 'reparado/layouts/nueva_base.html' %}
+
+{% load static %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block principal %}
+
+
+<section>
+    <div id="jumbotron" class="p-5 bg-dark text-white rounded text-center">
+        <h1>Panel De Gestión</h1>
+    </div>
+</section>
+
+<section id="service-links" class="container my-5">
+    <div class="row">
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'categorias' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/servicios.jpg' %}" alt="Electricidad" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Categorias</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'servicios' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/solicitudes.jpg' %}" alt="Otros Servicios" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Servicios</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% if request.session.logueo.rol == "ADMIN" %}
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'usuarios' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/carpinteria.jpg' %}" alt="Usuarios" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Usuarios</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'solicitudes' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/clientes.jpg' %}" alt="Solicitudes" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Solicitudes</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <a href="{% url 'detalle_compras' %}" class="text-decoration-none">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{% static 'reparado/img/pagos.jpg' %}" alt="Facturas" />
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Facturas</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Botón de WhatsApp -->
+<a href="https://wa.me/573016807257" target="_blank" class="whatsapp-btn"><i class="bi bi-whatsapp"></i></a>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width,
+					  user-scalable=no,
+					  initial-scale=1.0,
+					  maximum-scale=1.0,
+					  minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="{% static 'reparado/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="{% static 'reparado/css/ejercicioboostrap.css' %}" />
+        <link rel="stylesheet" href="{% static 'reparado/css/estilosPrueba.css' %}" />
+        <link href="{% static 'reparado/css/datatables.min.css' %}" rel="stylesheet" />
+        <title>ReparaDo! - {% block titulo %}{% endblock %}</title>
+    </head>
+</head>
+<body>
+<header>
+
+</header>
+		{% if messages %} {% for message in messages %}
+		<div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+			{{ message }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		{% endfor %} {% endif %}
+<main>
+    {% block principal %} {% endblock %}
+</main>
+
+<script src="{% static 'reparado/js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'reparado/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'reparado/js/DataTables/js/datatables.min.js' %}"></script>
+<script src="{% static 'reparado/js/libreria.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#dataTable").DataTable({
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ registros por página",
+                "zeroRecords": "No se encontró nada - Lo sentimos",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros existentes",
+                "infoFiltered": "(filtrado desde _MAX_ total records)",
+                "paginate": {
+                    "next": "Próximo",
+                    "previous": "Anterior",
+                },
+                "search": "Buscar:",
+            },
+        });
+    });
+</script>
+
+</body>
+</html>
+

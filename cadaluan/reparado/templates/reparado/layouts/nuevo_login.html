@@ -1,0 +1,491 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width,
+					  user-scalable=no,
+					  initial-scale=1.0,
+					  maximum-scale=1.0,
+					  minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="{% static 'reparado/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+        <link rel="stylesheet" href="{% static 'reparado/css/estilos.css' %}" />
+        <link href="{% static 'reparado/css/datatables.min.css' %}" rel="stylesheet" />
+        <title>ReparaDo!</title>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="{% url 'index' %}">ReparaDo!</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="mynavbar">
+                        <ul class="navbar-nav me-auto">
+                            <!-- Enlaces a otras secciones -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="#servicios">Servicios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#testimonios">Testimonios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#beneficios">Beneficios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#proyectos-recientes">Proyectos Recientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#faq">Preguntas Frecuentes</a>
+                            </li>
+                        </ul>
+                        <!-- Botones de Iniciar Sesión y Registrarse -->
+                        <button class="btn btn-light me-2" data-bs-toggle="modal" data-bs-target="#iniciarSesionModal">
+                            Iniciar Sesión
+                        </button>
+                        <button class="btn btn-secondary" onclick="registro(`{% url 'registro' %}`)">
+                            Registrarse
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %} {% endif %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <main>
+            <section class="expandedos">
+                <div class="container2" id="container2">
+                    <div class="split left">
+                        <h1 id="titulo1">La solución a un click</h1>
+                        <a href="#" class="btn1">Solicita tu servicio ahora!</a>
+                    </div>
+                    <div class="split right">
+                        <h1 id="titulo1">Contactanos ahora</h1>
+    
+                        <a href="https://wa.me/573023383914" class="btn1">Contacte con un asesor!</a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="servicios" class="container py-5">
+                <h2 class="text-center mb-4">Servicios</h2>
+                <div class="row">
+                    <!-- Tarjeta 1 - Fontanería -->
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <div class="card">
+                            <img class="card-img-top" src="{% static 'reparado/img/fontaneria.jpg' %}" alt="Fontanería" />
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Fontanería</h4>
+                                <p class="card-text">
+                                    Solucionamos problemas de fontanería en tu hogar o negocio.
+                                </p>
+                                <a href="#" class="btn btn-orange">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 2 - Obra Blanca -->
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <div class="card">
+                            <img class="card-img-top" src="{% static 'reparado/img/obraBlanca.jpg' %}" alt="Obra Blanca" />
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Obra Blanca</h4>
+                                <p class="card-text">
+                                    Realizamos trabajos de obra blanca para renovar tus espacios.
+                                </p>
+                                <a href="#" class="btn btn-orange">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 3 - Electricidad -->
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <div class="card">
+                            <img class="card-img-top" src="{% static 'reparado/img/electricidad.jpg' %}" alt="Electricidad" />
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Electricidad</h4>
+                                <p class="card-text">
+                                    Reparamos problemas eléctricos y realizamos instalaciones.
+                                </p>
+                                <a href="#" class="btn btn-orange">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tarjeta 4 - Otros Servicios -->
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <div class="card">
+                            <img class="card-img-top" src="{% static 'reparado/img/carpinteria.jpg' %}" alt="Otros Servicios" />
+                            <div class="card-body text-center">
+                                <!-- Agregamos la clase text-center aquí -->
+                                <h4 class="card-title">Otros Servicios</h4>
+                                <p class="card-text">
+                                    Ofrecemos una variedad de servicios para satisfacer tus necesidades.
+                                </p>
+                                <a href="#" class="btn btn-orange">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agrega más tarjetas de servicios aquí -->
+                </div>
+            </section>
+
+            <!-- Sección de Testimonios -->
+            <section id="testimonios" class="container py-5">
+                <h2 class="text-center mb-4">Testimonios</h2>
+                <div class="row">
+                    <!-- Testimonio 1 -->
+                    <div class="col-md-4">
+                        <div class="testimonial text-center mb-4">
+                            <img src="{% static 'reparado/img/testimonio3.jpg' %}" alt="Cliente 1" class="testimonial-image rounded-circle img-fluid" />
+                            <p class="testimonial-text">
+                                "Tuve un problema con mi lavadora justo cuando más la necesitaba. Afortunadamente, encontré a Reparado, y su equipo fue increíblemente rápido y profesional. En menos de 24 horas, tenía mi lavadora funcionando como nueva. Además, me explicaron todo el proceso de reparación de una forma muy clara. Definitivamente confiaré en ellos para futuras reparaciones."
+                            </p>
+                            <p class="testimonial-author">Laura Pérez</p>
+                        </div>
+                    </div>
+                    <!-- Testimonio 2 -->
+                    <div class="col-md-4">
+                        <div class="testimonial text-center mb-4">
+                            <img src="{% static 'reparado/img/testimonio1.jpg' %}" alt="Cliente 2" class="testimonial-image rounded-circle img-fluid" />
+                            <p class="testimonial-text">
+                                ""Llevamos varios meses trabajando con Reparado para el mantenimiento eléctrico de nuestra oficina, y no podríamos estar más satisfechos. El equipo técnico es puntual, eficiente y siempre nos brinda soluciones rápidas sin interrumpir nuestras operaciones diarias. Nos ahorraron mucho tiempo y problemas. ¡Totalmente recomendados!"."
+                            </p>
+                            <p class="testimonial-author">Carlos Ramírez</p>
+                        </div>
+                    </div>
+                    <!-- Testimonio 3 -->
+                    <div class="col-md-4">
+                        <div class="testimonial text-center mb-4">
+                            <img src="{% static 'reparado/img/testimonio2.jpg' %}" alt="Cliente 3" class="testimonial-image rounded-circle img-fluid" />
+                            <p class="testimonial-text">
+                                "Estaba enfrentando problemas de fugas en el baño desde hacía semanas y no sabía a quién recurrir. Un amigo me recomendó Reparado y no me arrepiento en lo absoluto. Los técnicos llegaron puntualmente y arreglaron el problema de la fuga en solo unas horas. Lo mejor es que dejaron todo limpio y ordenado. ¡Gracias a ellos, mi baño volvió a la normalidad!""
+                            </p>
+                            <p class="testimonial-author">Mario López</p>
+                        </div>
+                    </div>
+                    <!-- Repite el mismo formato para más testimonios -->
+                </div>
+            </section>
+
+            <!-- Sección de testimonios con carrusel -->
+            <section class="section bg-light">
+                <div class="container">
+                    <!-- <h2 class="text-center">Testimonios</h2> -->
+                    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="testimonial">
+                                    <p>"¡Excelente servicio! Muy rápidos y profesionales." - <strong>Juan Pérez</strong></p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="testimonial">
+                                    <p>"ReparaDo! me ayudó a solucionar un problema eléctrico en minutos." - <strong>Laura Díaz</strong></p>
+                                </div>
+                            </div>
+                            <!-- Agrega más testimonios según sea necesario -->
+                        </div>
+                        <a class="carousel-control-prev" href="#testimonialCarousel" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </a>
+                        <a class="carousel-control-next" href="#testimonialCarousel" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Beneficios -->
+            <section id="beneficios" class="container py-5">
+                <h2 class="text-center mb-4">Beneficios</h2>
+                <div class="row">
+                    <!-- Beneficio 1 -->
+                    <div class="col-md-4">
+                        <div class="benefit text-center">
+                            <i class="fas fa-check-circle fa-3x mb-2"></i>
+                            <h3>Profesionales Capacitados</h3>
+                            <p>
+                                Nuestro equipo está compuesto por expertos en reparación y mantenimiento.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Beneficio 2 -->
+                    <div class="col-md-4">
+                        <div class="benefit text-center">
+                            <i class="fas fa-check-circle fa-3x mb-2"></i>
+                            <h3>Servicio Rápido y Eficiente</h3>
+                            <p>
+                                Ofrecemos soluciones rápidas y eficientes para tus problemas de reparación.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Beneficio 3 -->
+                    <div class="col-md-4">
+                        <div class="benefit text-center">
+                            <i class="fas fa-check-circle fa-3x mb-2"></i>
+                            <h3>Satisfacción Garantizada</h3>
+                            <p>
+                                Garantizamos tu satisfacción con nuestros servicios y resultados.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Agrega más beneficios siguiendo el mismo formato -->
+                </div>
+            </section>
+
+            <!-- Sección de Proyectos Recientes -->
+            <section id="proyectos-recientes" class="container py-5">
+                <h2 class="text-center mb-4">Proyectos Recientes</h2>
+                <div class="row d-flex justify-content-around">
+                    <!-- Proyecto 1 -->
+                    <div class="col-md-4">
+                        <div class="project text-center mb-4">
+                            <img src="{% static 'reparado/img/proyecto1.jpg' %}" alt="Proyecto 1" class="project-image rounded-circle img-fluid" />
+                            <h3>Remodelación de Cocina</h3>
+                            <p>
+                                Hemos transformado una cocina antigua en un espacio moderno y funcional. Instalamos nuevos electrodomésticos y diseñamos una nueva distribución para una mejor experiencia culinaria.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Proyecto 2 -->
+                    <div class="col-md-4">
+                        <div class="project text-center mb-4">
+                            <img src="{% static 'reparado/img/proyecto2.jpg' %}" alt="Proyecto 2" class="project-image rounded-circle img-fluid" />
+                            <h3>Reparación de Fontanería</h3>
+                            <p>
+                                Solucionamos un problema de fugas de agua en una vivienda. Nuestro equipo resolvió rápidamente el problema y restauró el sistema de fontanería para evitar futuros inconvenientes.
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Agrega más proyectos siguiendo el mismo formato -->
+                </div>
+            </section>
+
+            <!-- Sección de Preguntas Frecuentes (FAQ) -->
+            <section id="faq" class="container py-5">
+                <h2 class="text-center">Preguntas Frecuentes</h2>
+                <div class="accordion" id="faqAccordion">
+                    <!-- Pregunta 1 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeading1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1">
+                                ¿Cuáles son los servicios que ofrecen?
+                            </button>
+                        </h3>
+                        <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Ofrecemos una amplia gama de servicios de reparación y mantenimiento, incluyendo fontanería, servicios eléctricos, remodelación de interiores y exteriores, reparación de electrodomésticos y mucho más. Estamos
+                                aquí para solucionar tus necesidades de hogar o negocio.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeading2">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2">
+                                ¿Cómo puedo solicitar sus servicios?
+                            </button>
+                        </h3>
+                        <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Puedes solicitar nuestros servicios a través de nuestro sitio web llenando el formulario de contacto o llamándonos directamente. Nuestro equipo se comunicará contigo para coordinar una cita y discutir tus
+                                necesidades específicas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeading3">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3">
+                                ¿Cuáles son sus tarifas?
+                            </button>
+                        </h3>
+                        <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Nuestras tarifas pueden variar según la naturaleza del trabajo y la extensión del proyecto. Te recomendamos que nos contactes para discutir tus necesidades y proporcionaremos una cotización personalizada sin
+                                compromiso.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="faqHeading4">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4" aria-expanded="false" aria-controls="faqCollapse4">
+                                ¿Ofrecen garantía en sus servicios?
+                            </button>
+                        </h3>
+                        <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sí, ofrecemos garantía en la mayoría de nuestros servicios. La duración de la garantía puede variar según el tipo de trabajo realizado. Nuestro objetivo es asegurarnos de que quedes satisfecho con la calidad
+                                de nuestro trabajo y, en caso de problemas, estamos aquí para respaldarte.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Agrega más preguntas frecuentes siguiendo el mismo formato -->
+                </div>
+            </section>
+
+                <!-- Sección de contacto -->
+            <section class="section">
+                <div class="container">
+                    <h2 class="text-center">Contáctanos</h2>
+                    <p class="text-center">¿Tienes alguna consulta o necesitas nuestros servicios? Llena el formulario y nos pondremos en contacto contigo.</p>
+                    <form class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name" required>
+                            <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" required>
+                            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Mensaje</label>
+                            <textarea class="form-control" id="message" rows="3" required></textarea>
+                            <div class="invalid-feedback">Por favor ingresa tu mensaje.</div>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Enviar</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-dark text-white pt-5">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo Section -->
+                    <div class="col-md-6 col-lg-3 text-center mb-4">
+                        <a href="/">
+                            <img src="{% static 'reparado/img/Reparado1.jpg' %}" alt="Logo ReparaDo" class="img-fluid" style="max-height: 100px; border-radius: 150px;" />
+                        </a>
+                    </div>
+        
+                    <!-- About Us Section -->
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <h5 class="text-uppercase mb-3">Sobre Nosotros</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'nosotros' %}" class="text-white-50">Nosotros</a></li>
+                            <li><a href="{% url 'nuestros_servicios' %}" class="text-white-50">Servicios</a></li>
+                            <li><a href="{% url 'politica_privacidad' %}" class="text-white-50">Política de privacidad</a></li>
+                        </ul>
+                    </div>
+        
+                    <!-- Help & Support Section -->
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <h5 class="text-uppercase mb-3">Ayuda y Soporte</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'pregunta' %}" class="text-white-50">FAQs</a></li>
+                            
+                        </ul>
+                    </div>
+        
+                    <!-- Follow Us Section -->
+                    <div class="col-md-6 col-lg-3 mb-4">
+                        <h5 class="text-uppercase mb-3">Síguenos</h5>
+                        <p class="text-white-50">Mantente al día con nuestras ofertas y servicios</p>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" class="text-white-50 me-3" style="font-size: 24px;"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-white-50 me-3" style="font-size: 24px;"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="text-white-50" style="font-size: 24px;"><i class="bi bi-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Footer Bottom -->
+            <div class="bg-secondary text-center py-3">
+                <p class="mb-0">&copy; 2023 ReparaDo! - Todos los derechos reservados</p>
+            </div>
+        </footer>
+        
+        <!-- Modales -->
+        <!-- Modal de Inicio de Sesión -->
+        <div class="modal fade" id="iniciarSesionModal" tabindex="-1" aria-labelledby="iniciarSesionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="iniciarSesionModalLabel">Iniciar Sesión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Contenido del formulario de inicio de sesión -->
+                        <form id="loginForm" action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="email1" class="form-label">Correo</label>
+                                <input type="text" class="form-control" id="email1" name="email" required aria-label="Correo usuario" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="password" name="password" required aria-label="Contraseña" />
+                            </div>
+                            <div class="mb-3">
+                                <a onclick="recuperar(`{% url 'recuperar_clave' %}`)" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Registro -->
+        <div class="modal fade" id="registrarseModal" tabindex="-1" aria-labelledby="registrarseModalLabel" aria-hidden="true">
+
+        </div>
+
+         <!-- Scripts -->
+         <script src="{% static 'reparado/js/jquery-3.7.1.min.js' %}"></script>
+         <script src="{% static 'reparado/js/bootstrap.bundle.min.js' %}"></script>
+         <script src="{% static 'reparado/js/DataTables/js/datatables.min.js' %}"></script>
+         <script src="{% static 'reparado/js/libreria.js' %}"></script>
+         <script src="{% static 'reparado/js/daniel.js' %}"></script>
+    </body>
+        <script>
+            // Validación Bootstrap en tiempo real
+            (function () {
+                'use strict';
+                var forms = document.querySelectorAll('.needs-validation');
+                Array.prototype.slice.call(forms).forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            })();
+        </script>
+       
+</html>

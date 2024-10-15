@@ -1,0 +1,41 @@
+{% extends 'reparado/footer/base_footer.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="container-fluid" style="display: flex;justify-content: space-around;padding: 10px;margin: 10px;">
+    <div class="container-fluid">
+        <h1>Politica de privacidad</h1>
+        <p class="lead">Esta Política de Privacidad describe cómo Reparado recopila, utiliza y divulga su información
+            personal cuando utiliza nuestro sitio web o servicios. Nos tomamos muy en serio la protección de su
+            privacidad y nos comprometemos a tratar su información personal con el máximo cuidado y respeto..</p>
+        <div id="info1">
+            <a href="{% static 'reparado/descargables/politica_reparado.pdf' %}" id="mas_info" style="color: black;" download>
+                Ampliar información
+            </a>
+        </div>
+    </div>
+    <div class="container-fluid" style="display: flex;justify-items: end;justify-content: center;"><img style="clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 50% 100%, 0% 80%, 0% 20%); /* Define la forma del recorte */
+  height: 500px; width: 500px; " src="{% static 'reparado/img/asesor.jpg' %}" alt=""></div>
+
+
+</div>
+
+<div class="elementor-widget-container">
+    <hr size="5px" width="50%" style="display: flex;justify-content: center ;" color="red" />
+</div>
+
+
+<div class="jumbotron" id="vacante">
+    <h1 class="display-4">Politica de privacidad</h1>
+    <P>Una política de privacidad es un documento legal obligatorio que establece cómo un sitio web o empresa
+        recopila, utiliza, almacena, comparte y protege la información personal de sus usuarios. Es crucial para la
+        transparencia y la construcción de confianza con los usuarios, especialmente en sitios web como Reparado que
+        manejan datos sensibles como información personal del hogar y datos de contacto.</P>
+    <hr class="my-4">
+    
+</div>
+
+{% endblock %}

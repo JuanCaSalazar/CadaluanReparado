@@ -1,0 +1,96 @@
+{% extends 'reparado/footer/base_footer.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .faq-text {
+            display: none; /* Ocultar por defecto */
+        }
+
+        .faq.active .faq-text {
+            display: block; /* Mostrar cuando está activo */
+        }
+    </style>
+    <title>Preguntas Frecuentes</title>
+</head>
+<body>
+
+<h1>Preguntas Frecuentes</h1>
+<div class="faq-container">
+    <div class="faq active">
+        <h3 class="faq-title">¿Qué tipos de servicios ofrece Reparado?</h3>
+        <p class="faq-text">Ofrecemos servicios de reparaciones eléctricas, fontanería, plomería y obra blanca para hogares en Medellín.</p>
+        <button class="faq-toggle">
+            <i class="fas fa-chevron-down"></i>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="faq">
+        <h3 class="faq-title">¿Cómo puedo solicitar un servicio?</h3>
+        <p class="faq-text">Puedes solicitar un servicio a través de nuestro sitio web o contactándonos directamente por WhatsApp.</p>
+        <button class="faq-toggle">
+            <i class="fas fa-chevron-down"></i>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="faq">
+        <h3 class="faq-title">¿Cuánto tiempo tardan en realizar una reparación?</h3>
+        <p class="faq-text">El tiempo de reparación varía según el tipo de servicio, pero generalmente completamos la mayoría de los trabajos en un solo día.</p>
+        <button class="faq-toggle">
+            <i class="fas fa-chevron-down"></i>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="faq">
+        <h3 class="faq-title">¿Ofrecen garantía por sus servicios?</h3>
+        <p class="faq-text">Sí, todos nuestros servicios están respaldados por una garantía que cubre tanto los materiales como la mano de obra.</p>
+        <button class="faq-toggle">
+            <i class="fas fa-chevron-down"></i>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="faq">
+        <h3 class="faq-title">¿Qué debo hacer si tengo una emergencia de plomería?</h3>
+        <p class="faq-text">Te recomendamos que te pongas en contacto con nosotros de inmediato. Estamos disponibles para emergencias y podemos enviarte un técnico lo antes posible.</p>
+        <button class="faq-toggle">
+            <i class="fas fa-chevron-down"></i>
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggles = document.querySelectorAll('.faq-toggle');
+
+        toggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const faq = toggle.parentNode;
+                faq.classList.toggle('active');
+
+                const text = faq.querySelector('.faq-text');
+                if (faq.classList.contains('active')) {
+                    text.style.display = 'block'; // Mostrar
+                } else {
+                    text.style.display = 'none'; // Ocultar
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'reparado/layouts/base_sencilla.html' %}
+
+{% load static %}
+
+{% block principal %}
+
+<div class="card mt-5 p-2 col-3 m-auto text-center">
+    <form action="{% url 'verificar_token_form' email %}" method="post">
+        {% csrf_token %}
+        <label for="c">Digite el token de seguridad:</label>
+        <input id="c" type="text" name="token" class="form-control" />
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+{% endblock %}
